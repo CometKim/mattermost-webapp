@@ -59,16 +59,6 @@ class InviteMemberModal extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.teamChange = this.teamChange.bind(this);
-        this.handleToggle = this.handleToggle.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleHide = this.handleHide.bind(this);
-        this.addInviteFields = this.addInviteFields.bind(this);
-        this.clearFields = this.clearFields.bind(this);
-        this.removeInviteFields = this.removeInviteFields.bind(this);
-        this.showGetTeamInviteLinkModal = this.showGetTeamInviteLinkModal.bind(this);
-        this.handleKeyDown = this.handleKeyDown.bind(this);
-
         const team = TeamStore.getCurrent();
 
         this.state = {
@@ -86,7 +76,7 @@ class InviteMemberModal extends React.PureComponent {
         };
     }
 
-    teamChange() {
+    teamChange = () => {
         const team = TeamStore.getCurrent();
         const teamType = team ? team.type : null;
         this.setState({
@@ -104,14 +94,14 @@ class InviteMemberModal extends React.PureComponent {
         TeamStore.removeChangeListener(this.teamChange);
     }
 
-    handleToggle(value) {
+    handleToggle = (value) => {
         this.setState({
             show: value,
             serverError: null
         });
     }
 
-    handleSubmit() {
+    handleSubmit = () => {
         if (!this.state.emailEnabled) {
             return;
         }
@@ -171,7 +161,7 @@ class InviteMemberModal extends React.PureComponent {
         );
     }
 
-    handleHide(requireConfirm) {
+    handleHide = (requireConfirm) => {
         if (requireConfirm) {
             var notEmpty = false;
             for (var i = 0; i < this.state.inviteIds.length; i++) {
@@ -199,14 +189,14 @@ class InviteMemberModal extends React.PureComponent {
         });
     }
 
-    addInviteFields() {
+    addInviteFields = () => {
         var count = this.state.idCount + 1;
         var inviteIds = this.state.inviteIds;
         inviteIds.push(count);
         this.setState({inviteIds, idCount: count});
     }
 
-    clearFields() {
+    clearFields = () => {
         var inviteIds = this.state.inviteIds;
 
         for (var i = 0; i < inviteIds.length; i++) {
@@ -225,7 +215,7 @@ class InviteMemberModal extends React.PureComponent {
         });
     }
 
-    removeInviteFields(index) {
+    removeInviteFields = (index) => {
         var count = this.state.idCount;
         var inviteIds = this.state.inviteIds;
         var i = inviteIds.indexOf(index);
@@ -238,13 +228,13 @@ class InviteMemberModal extends React.PureComponent {
         this.setState({inviteIds, idCount: count});
     }
 
-    showGetTeamInviteLinkModal() {
+    showGetTeamInviteLinkModal = () => {
         this.handleHide(false);
 
         GlobalActions.showGetTeamInviteLinkModal();
     }
 
-    handleKeyDown(e) {
+    handleKeyDown = (e) => {
         if (e.keyCode === Constants.KeyCodes.ENTER) {
             e.preventDefault();
             this.handleSubmit();
