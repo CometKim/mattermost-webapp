@@ -2,6 +2,7 @@
 // See License.txt for license information.
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Modal} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import {defineMessages, FormattedHTMLMessage, FormattedMessage, injectIntl, intlShape} from 'react-intl';
@@ -11,12 +12,11 @@ import {inviteMembers} from 'actions/team_actions.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import ModalStore from 'stores/modal_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 
 import Constants from 'utils/constants.jsx';
 import * as utils from 'utils/utils.jsx';
 
-import ConfirmModal from './confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal.jsx';
 
 const ActionTypes = Constants.ActionTypes;
 
@@ -53,16 +53,20 @@ class InviteMemberModal extends React.PureComponent {
         /*
          * react-intl helper object
          */
-        intl: intlShape.isRequired
+        intl: intlShape.isRequired,
+
+        currentTeam: PropTypes.object.isRequired,
+        currentUser: PropTypes.object.isRequired
     };
 
     constructor(props) {
         super(props);
 
-        const team = TeamStore.getCurrent();
+        const team = this.props.currentTeam;
 
         this.state = {
             show: false,
+            serverError: null,
             inviteIds: [0],
             idCount: 0,
             emailErrors: {},
@@ -77,7 +81,7 @@ class InviteMemberModal extends React.PureComponent {
     }
 
     teamChange = () => {
-        const team = TeamStore.getCurrent();
+        const team = this.props.currentTeam;
         const teamType = team ? team.type : null;
         this.setState({
             teamType
@@ -242,7 +246,7 @@ class InviteMemberModal extends React.PureComponent {
     }
 
     render() {
-        var currentUser = UserStore.getCurrentUser();
+        var currentUser = this.props.currentUser;
         const {formatMessage} = this.props.intl;
 
         if (currentUser != null && this.state.teamType != null) {
