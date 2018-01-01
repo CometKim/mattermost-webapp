@@ -48,6 +48,14 @@ const holders = defineMessages({
 });
 
 class InviteMemberModal extends React.Component {
+    static propTypes = {
+
+        /*
+         * react-intl helper object
+         */
+        intl: intlShape.isRequired
+    };
+
     constructor(props) {
         super(props);
 
@@ -531,9 +539,5 @@ class InviteMemberModal extends React.Component {
         return null;
     }
 }
-
-InviteMemberModal.propTypes = {
-    intl: intlShape.isRequired
-};
 
 export default injectIntl(InviteMemberModal);
