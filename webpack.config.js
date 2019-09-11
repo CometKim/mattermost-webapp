@@ -184,6 +184,10 @@ var config = {
                     {
                         loader: 'sass-loader',
                         options: {
+                            implementation: require('sass'),
+                            sassOptions: {
+                                fiber: require('fibers'),
+                            },
                             includePaths: ['node_modules/compass-mixins/lib', 'sass'],
                         },
                     },
